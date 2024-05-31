@@ -6,14 +6,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#createFileButton').click(function() {
+            $('#createFileButton').click(function(event) {
+                event.preventDefault();
                 createTextFile();
             });
         });
 
         function createTextFile() {
             var siteUrl = _spPageContextInfo.webAbsoluteUrl; // Get the current site URL
-            var folderUrl = "/Shared Documents"; // Path to the document library
+            var folderUrl = "Shared Documents"; // Path to the document library
             var fileName = "NewFile.txt"; // Name of the new file
             var fileContent = "This is the content of the new text file."; // Content of the new file
 
@@ -24,8 +25,9 @@
                 url: apiUrl,
                 type: "POST",
                 data: fileContent,
+                processData: false,
                 headers: {
-                    "accept": "application/json;odata=verbose",
+                    "Accept": "application/json;odata=verbose",
                     "X-RequestDigest": $("#__REQUESTDIGEST").val(),
                     "content-type": "text/plain; charset=utf-8"
                 },
@@ -43,7 +45,7 @@
     <form id="aspnetForm" runat="server">
         <div>
             <asp:ScriptManager runat="server" />
-            <asp:Button ID="createFileButton" runat="server" Text="Create Text File" OnClientClick="createTextFile(); return false;" />
+            <input type="button" id="createFileButton" value="Create Text File" />
         </div>
     </form>
 </body>
